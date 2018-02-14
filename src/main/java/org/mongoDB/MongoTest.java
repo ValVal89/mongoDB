@@ -33,13 +33,12 @@ public class MongoTest
     static MongoClient mongoClient = new MongoClient("localhost" , MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
     static MongoDatabase database = mongoClient.getDatabase("students");
     static MongoCollection<Document> collection = database.getCollection("students");
+    static MongoCollection<Student> studentsCollection = database.getCollection("students", Student.class);
 
     static Document doc = new Document("firstName", "Kate")
             .append("lastName", "Ivanova")
             .append("age", 29)
             .append("hobby", asList("films", "swimming"));
-
-   static MongoCollection<Student> studentsCollection = database.getCollection("students", Student.class);
 
     public static void main(String[] args)
     {
@@ -56,18 +55,26 @@ public class MongoTest
         deleteAll();
         createIndex();
 
-        insertStudent();
+//        insertStudent();
         insertManyStudents();
         deleteStudent();
         deleteAllStudentsByFilter();
+
+        findOne();
+    }
+
+    static void findOne()
+    {
+        Document myDoc = collection.find(eq("_id", 100)).first();
+        System.out.println("filter by id  = " + myDoc.toJson());
     }
 
   static void findFirst()
   {
-      System.out.println(collection.find().first().toJson());
+      System.out.println("first element =   " +collection.find().first().toJson());
   }
 
-   static void count()
+     static void count()
    {
        System.out.println("total count of elements = " +collection.count());
    }
@@ -149,9 +156,9 @@ public class MongoTest
 
     static void insertStudent()
     {
-        Student ada = new Student("Ada", "Byron", 20, new ArrayList<Hobby>(asList(new Hobby[]{Hobby.SWIMMING, Hobby.FILMS})));
+        Student newAda = new Student((long) 100, "newAda", "Byron", 20, new ArrayList<Hobby>(asList(new Hobby[]{Hobby.SWIMMING, Hobby.FILMS})));
 
-        studentsCollection.insertOne(ada);
+        studentsCollection.insertOne(newAda);
     }
 
     static void insertManyStudents()

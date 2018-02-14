@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Student
 {
-    private ObjectId id;
+    private Long id;
     private String firstName;
     private String lastName;
     private int age;
@@ -15,7 +15,7 @@ public class Student
     public Student() {
     }
 
-    public Student( String firstName, String lastName, int age, ArrayList<Hobby> hobby) {
+    public Student(Long id,  String firstName, String lastName, int age, ArrayList<Hobby> hobby) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,11 +23,19 @@ public class Student
         this.hobby = hobby;
     }
 
-    public ObjectId getId() {
+    public Student(String firstName, String lastName, int age, ArrayList<Hobby> hobby) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.hobby = hobby;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
